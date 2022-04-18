@@ -29,12 +29,14 @@ public class FetchNews {
     String baseUrl;
     @Value("${articles-timeout-api}")
     Duration timeout;
+    @Value("${batch-size}")
+    int batchSize;
 
     @Scheduled(fixedRate = Long.MAX_VALUE)
     public void start() {
         long startTime = System.currentTimeMillis();
 
-        ArticlesBuffer articlesBuffer = new ArticlesBuffer(articleRepository);
+        ArticlesBuffer articlesBuffer = new ArticlesBuffer(articleRepository, batchSize);
         ExecutorService executorService = Executors.newFixedThreadPool(threadsCount);
 
         int threadCount = (maxArticlesForDownload - 1 + maxArticlesForOneThread) / maxArticlesForOneThread;

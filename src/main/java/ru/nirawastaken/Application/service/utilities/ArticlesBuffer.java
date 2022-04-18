@@ -1,9 +1,9 @@
 package ru.nirawastaken.Application.service.utilities;
 
+
 import ru.nirawastaken.Application.entity.Article;
 import ru.nirawastaken.Application.repository.ArticleRepository;
 
-import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -11,14 +11,16 @@ import java.util.concurrent.ConcurrentHashMap;
 
 public class ArticlesBuffer {
 
-    private final int batchSize = 50;
+
     ConcurrentHashMap<String, List<Article>> articlesHashMapByName;
     ArticleRepository articleRepository;
     List<Article> articles;
+    int batchSize;
 
-    public ArticlesBuffer(ArticleRepository articleRepository) {
+    public ArticlesBuffer(ArticleRepository articleRepository, int batchSize) {
         this.articleRepository = articleRepository;
         this.articlesHashMapByName = new ConcurrentHashMap<>();
+        this.batchSize = batchSize;
     }
 
     public void push(Map<String, List<Article>> articlesMapByName) {
