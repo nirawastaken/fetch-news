@@ -26,7 +26,7 @@ public class ArticlesBuffer {
     public void push(Map<String, List<Article>> articlesMapByName) {
         articlesMapByName.forEach((e, s)-> {
             articlesHashMapByName.putIfAbsent(e, new ArrayList<>());
-            synchronized (articlesHashMapByName.get(e)) {
+            synchronized (articlesHashMapByName.get(e.intern())) {
                 articles = articlesHashMapByName.get(e);
                 articles.addAll(s);
                 if(articles.size() >= batchSize) {
